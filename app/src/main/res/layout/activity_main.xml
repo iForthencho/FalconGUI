@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/falcon_micro_gui"
+    tools:context=".MainActivity">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="520dp"
+        android:layout_height="480dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.475"
+        android:background="@android:color/black">
+
+        <org.videolan.libvlc.util.VLCVideoLayout
+            android:id="@+id/videoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:rotation="90"/>
+
+    </FrameLayout>
+
+    <!--    <TextView-->
+<!--        android:id="@+id/pose_w"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="14dp"-->
+<!--        android:fontFamily="@font/lato"-->
+<!--        android:text="Retrieve Data"-->
+<!--        android:textColor="@color/red"-->
+<!--        android:textSize="12sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guideline3"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.527" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/pose_x"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="14dp"-->
+<!--        android:layout_marginTop="14dp"-->
+<!--        android:fontFamily="@font/lato"-->
+<!--        android:text="Retrieve Data"-->
+<!--        android:textColor="@color/red"-->
+<!--        android:textSize="12sp"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guideline3"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/pose_w" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/pose_y"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="14dp"-->
+<!--        android:layout_marginTop="14dp"-->
+<!--        android:fontFamily="@font/lato"-->
+<!--        android:text="Retrieve Data"-->
+<!--        android:textColor="@color/red"-->
+<!--        android:textSize="12sp"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guideline3"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/pose_x" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/robot_location"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="14dp"-->
+<!--        android:layout_marginTop="14dp"-->
+<!--        android:fontFamily="@font/lato"-->
+<!--        android:text="Retrieve Data"-->
+<!--        android:textColor="@color/red"-->
+<!--        android:textSize="12sp"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guideline3"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/pose_y" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/robot_name"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="14dp"-->
+<!--        android:fontFamily="@font/lato"-->
+<!--        android:text="Retrieve Data"-->
+<!--        android:textColor="@color/red"-->
+<!--        android:textSize="12sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guideline4"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.527" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/robotIcon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:translationX="200dp"-->
+<!--        android:translationY="200dp"-->
+<!--        app:srcCompat="@android:drawable/ic_delete" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/geoTag"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:srcCompat="@android:drawable/ic_input_add"-->
+<!--        tools:layout_editor_absoluteX="168dp"-->
+<!--        tools:layout_editor_absoluteY="133dp" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/buttonPopup"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:background="@color/transparent"-->
+<!--        android:text=""-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.24"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <TextView
+        android:id="@+id/mqttStatus"
+        android:layout_width="200dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="332dp"
+        android:fontFamily="@font/lato"
+        android:rotation="90"
+        android:text="ROBOT DISCONNECTED"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.154" />
+
+    <TextView
+        android:id="@+id/flipperStatus"
+        android:layout_width="200dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="296dp"
+        android:fontFamily="@font/lato"
+        android:rotation="90"
+        android:text="FLIPPER NEUTRAL"
+        android:textColor="@color/green"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.154" />
+
+    <TextView
+        android:id="@+id/moveStatus"
+        android:layout_width="200dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="256dp"
+        android:fontFamily="@font/lato"
+        android:rotation="90"
+        android:text="MOVEMENT STOP"
+        android:textColor="@color/green"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.154" />
+
+    <TextView
+        android:id="@+id/dateTime"
+        android:layout_width="200dp"
+        android:layout_height="14dp"
+        android:fontFamily="@font/lato"
+        android:rotation="90"
+        android:text="DATE"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.525"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        tools:layout_editor_absoluteX="168dp" />
+
+    <Button
+        android:id="@+id/falconUp"
+        android:layout_width="80dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/falcon_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.908" />
+
+    <Button
+        android:id="@+id/falconDown"
+        android:layout_width="80dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/falcon_down"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.908" />
+
+    <io.github.controlwear.virtual.joystick.android.JoystickView
+        android:id="@+id/joystickView_left"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="4dp"
+        app:JV_backgroundColor="#d7d7d7"
+        app:JV_backgroundSizeRatio="80%"
+        app:JV_buttonColor="#777777"
+        app:JV_buttonSizeRatio="25%"
+        app:JV_fixedCenter="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.017" />
+
+    <Button
+        android:id="@+id/mqttConnect"
+        android:layout_width="40dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/button_press"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.908" />
+
+    <Button
+        android:id="@+id/screenshot"
+        android:layout_width="40dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/screenshot_press"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.908" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.31" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.204" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.627" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.727" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.19" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.65" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

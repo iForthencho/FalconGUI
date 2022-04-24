@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "22671080937",
+    "firebase_url": "https://falcon-8bdd6-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "falcon-8bdd6",
+    "storage_bucket": "falcon-8bdd6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22671080937:android:acbde89cf2333129e7df78",
+        "android_client_info": {
+          "package_name": "com.example.falcongui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22671080937-fijavklimelrn33ma2qb9f699ciriiv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2pTc0U3S2a5AAyf2qh1v6s4Au_J2JroY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22671080937-fijavklimelrn33ma2qb9f699ciriiv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
