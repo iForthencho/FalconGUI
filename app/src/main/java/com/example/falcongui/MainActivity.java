@@ -56,32 +56,6 @@ public class MainActivity extends AppCompatActivity {
     // creating a variable for our
     // Database Reference for Firebase.
     DatabaseReference databaseReference;
-    DatabaseReference newRobotRef;
-
-    // variables for Text view.
-    private TextView poseW;
-    private TextView poseX;
-    private TextView poseY;
-
-    // variables for robot icon
-    private ImageView robotIcon;
-    private String pose_w = "0";
-    private String pose_x = "0";
-    private String pose_y = "0";
-    private float robotX = 0;
-    private float robotY = 0;
-    private float robotW = 0;
-    private float mapX = 0;
-    private float mapY =0;
-
-    // variables for geotag
-    private ImageView geoTag;
-    private String interest_loc_x = "0";
-    private String interest_loc_y = "0";
-    private float geoX = 0;
-    private float geoY = 0;
-    private float mapGeoX = 0;
-    private float mapGeoY = 0;
 
     Handler handler = new Handler();
     Runnable runnable;
@@ -193,52 +167,52 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        falconUp = findViewById(R.id.falconUp);
-        flipperStatus = findViewById(R.id.flipperStatus);
-        falconUp.setOnClickListener(v -> {
-            if (climbUp == Boolean.FALSE) {
-                publishControl.setValue(6);
-                falconUp.setBackgroundResource(R.drawable.falcon_up_pressed);
-                falconDown.setBackgroundResource(R.drawable.falcon_down);
-                climbUp = true;
-                climbDown = false;
-                flipperStatus.setText("FLIPPER UP");
-            } else {
-                publishControl.setValue(0);
-                falconUp.setBackgroundResource(R.drawable.falcon_up);
-                climbUp = false;
-                flipperStatus.setText("FLIPPER NEUTRAL");
-            }
-            Log.d("mqtt", "publishing " + publishControl.getValue().toString());
-            try {
-                Log.d("mqtt", "publishing " + publishControl.getValue().toString());
-                client.publish("falcon/drive", publishControl.getValue().toString().getBytes(StandardCharsets.UTF_8),0,false);
-            } catch (MqttException e) {
-                e.printStackTrace();
-            }
-        });
-        falconDown = findViewById(R.id.falconDown);
-        falconDown.setOnClickListener(v -> {
-            if (climbDown == Boolean.FALSE) {
-                publishControl.setValue(5);
-                falconDown.setBackgroundResource(R.drawable.falcon_down_pressed);
-                falconUp.setBackgroundResource(R.drawable.falcon_up);
-                climbDown = true;
-                climbUp = false;
-                flipperStatus.setText("FLIPPER DOWN");
-            } else {
-                publishControl.setValue(0);
-                falconDown.setBackgroundResource(R.drawable.falcon_down);
-                climbDown = false;
-                flipperStatus.setText("FLIPPER NEUTRAL");
-            }
-            try {
-                Log.d("mqtt", "publishing " + publishControl.getValue().toString());
-                client.publish("falcon/drive", publishControl.getValue().toString().getBytes(StandardCharsets.UTF_8),0,false);
-            } catch (MqttException e) {
-                e.printStackTrace();
-            }
-        });
+//        falconUp = findViewById(R.id.falconUp);
+//        flipperStatus = findViewById(R.id.flipperStatus);
+//        falconUp.setOnClickListener(v -> {
+//            if (climbUp == Boolean.FALSE) {
+//                publishControl.setValue(6);
+//                falconUp.setBackgroundResource(R.drawable.falcon_up_pressed);
+//                falconDown.setBackgroundResource(R.drawable.falcon_down);
+//                climbUp = true;
+//                climbDown = false;
+//                flipperStatus.setText("FLIPPER UP");
+//            } else {
+//                publishControl.setValue(0);
+//                falconUp.setBackgroundResource(R.drawable.falcon_up);
+//                climbUp = false;
+//                flipperStatus.setText("FLIPPER NEUTRAL");
+//            }
+//            Log.d("mqtt", "publishing " + publishControl.getValue().toString());
+//            try {
+//                Log.d("mqtt", "publishing " + publishControl.getValue().toString());
+//                client.publish("falcon/drive", publishControl.getValue().toString().getBytes(StandardCharsets.UTF_8),0,false);
+//            } catch (MqttException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        falconDown = findViewById(R.id.falconDown);
+//        falconDown.setOnClickListener(v -> {
+//            if (climbDown == Boolean.FALSE) {
+//                publishControl.setValue(5);
+//                falconDown.setBackgroundResource(R.drawable.falcon_down_pressed);
+//                falconUp.setBackgroundResource(R.drawable.falcon_up);
+//                climbDown = true;
+//                climbUp = false;
+//                flipperStatus.setText("FLIPPER DOWN");
+//            } else {
+//                publishControl.setValue(0);
+//                falconDown.setBackgroundResource(R.drawable.falcon_down);
+//                climbDown = false;
+//                flipperStatus.setText("FLIPPER NEUTRAL");
+//            }
+//            try {
+//                Log.d("mqtt", "publishing " + publishControl.getValue().toString());
+//                client.publish("falcon/drive", publishControl.getValue().toString().getBytes(StandardCharsets.UTF_8),0,false);
+//            } catch (MqttException e) {
+//                e.printStackTrace();
+//            }
+//        });
 
         libVlc = new LibVLC(this);
         mediaPlayer = new MediaPlayer(libVlc);
@@ -369,42 +343,5 @@ public class MainActivity extends AppCompatActivity {
     private float map(float x, float in_min, float in_max, float out_min, float out_max)
     {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    }
-
-    private void getdata() {
-
-        // calling add value event listener method
-        // for getting the values from database.
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // this method is call to get the realtime
-                // updates in the data.
-                // this method is called when the data is
-                // changed in our Firebase console.
-                // below line is for getting the data from
-                // snapshot of our database.
-                pose_w = String.valueOf(snapshot.child("001").child("pose_w").getValue());
-                pose_x = String.valueOf(snapshot.child("001").child("pose_x").getValue());
-                pose_y = String.valueOf(snapshot.child("001").child("pose_y").getValue());
-                interest_loc_x = String.valueOf(snapshot.child("001").child("Interest_Loc_x")
-                        .child("0").getValue());
-                interest_loc_y = String.valueOf(snapshot.child("001").child("Interest_Loc_y")
-                        .child("0").getValue());
-
-                // after getting the value we are setting
-                // our value to our text view in below line.
-                poseW.setText("X POSITION   " + pose_w);
-                poseX.setText("Y POSITION   " + pose_x);
-                poseY.setText("Z POSITION   " + pose_y);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // calling on cancelled method when we receive
-                // any error or we are not able to get the data.
-                Toast.makeText(MainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

@@ -176,27 +176,27 @@
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         tools:layout_editor_absoluteX="168dp" />
 
-    <Button
-        android:id="@+id/falconUp"
-        android:layout_width="80dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/falcon_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.908" />
+<!--    <Button-->
+<!--        android:id="@+id/falconUp"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="150dp"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:background="@drawable/falcon_up"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/guideline3"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.908" />-->
 
-    <Button
-        android:id="@+id/falconDown"
-        android:layout_width="80dp"
-        android:layout_height="150dp"
-        android:layout_marginEnd="2dp"
-        android:background="@drawable/falcon_down"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.908" />
+<!--    <Button-->
+<!--        android:id="@+id/falconDown"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="150dp"-->
+<!--        android:layout_marginEnd="2dp"-->
+<!--        android:background="@drawable/falcon_down"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/guideline3"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.908" />-->
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/joystickView_left"
