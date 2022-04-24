@@ -140,32 +140,6 @@ public class MainActivity extends AppCompatActivity {
         // reference for our database.
         databaseReference = firebaseDatabase.getReference().child("robot");
 
-        // initializing our object class variable.
-//        poseW = findViewById(R.id.pose_w);
-//        poseX = findViewById(R.id.pose_x);
-//        poseY = findViewById(R.id.pose_y);
-//        robotIcon = findViewById(R.id.robotIcon);
-//        geoTag = findViewById(R.id.geoTag);
-
-        // calling method
-        // for getting data.
-//        getdata();
-//        updateRobotIcon();
-        //updateGeotags();
-        //addNewRobot("002");
-        //removeRobot("002");
-
-//        Button popupButton = findViewById(R.id.buttonPopup);
-//        popupButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//                PopUpWindow popUpClass = new PopUpWindow();
-//                popUpClass.showPopupWindow(v);
-//            }
-//        });
-
         moveStatus = findViewById(R.id.moveStatus);
         JoystickView joystickLeft = findViewById(R.id.joystickView_left);
         joystickLeft.setOnMoveListener(new JoystickView.OnMoveListener() {
@@ -195,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         mqttConnect = findViewById(R.id.mqttConnect);
         mqttStatus = findViewById(R.id.mqttStatus);
@@ -356,40 +329,6 @@ public class MainActivity extends AppCompatActivity {
         }catch (MqttException e){
             e.printStackTrace();
         }
-    }
-
-    // Add a new robot to firebase
-    private void addNewRobot(String robotID) {
-        newRobotRef = firebaseDatabase.getReference().child("robot").child(robotID);
-        Robot robot = new Robot(robotID);
-        newRobotRef.setValue(robot);
-    }
-
-    // Remove a specific robot from firebase
-    private void removeRobot(String robotID) {
-        newRobotRef = firebaseDatabase.getReference().child("robot").child(robotID);
-        newRobotRef.removeValue();
-    }
-
-    // Update the robot's position on the minimap
-    private void updateRobotIcon() {
-        robotX = Float.parseFloat(pose_x);
-        robotY = Float.parseFloat(pose_y);
-        mapX = map(robotX, -5, 5, 240, 1400);
-        mapY = map(robotY, -5, 5, 220, 800);
-        //850 x 500 center
-        robotIcon.setTranslationX(mapX);
-        robotIcon.setTranslationY(mapY);
-    }
-
-    // Update the positions of geotags
-    private void updateGeotags() {
-        geoX = Float.parseFloat(interest_loc_x);
-        geoY = Float.parseFloat(interest_loc_y);
-        mapGeoX = map(geoX, -50, 50, 0, 1700);
-        mapGeoY = map(geoY, -50, 50, 0, 1000);
-        geoTag.setTranslationX(mapGeoX);
-        geoTag.setTranslationY(mapGeoY);
     }
 
     private void takeScreenshot() {
