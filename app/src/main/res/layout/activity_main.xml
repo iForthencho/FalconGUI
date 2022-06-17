@@ -5,26 +5,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/falcon_micro_gui"
     tools:context=".MainActivity">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="520dp"
-        android:layout_height="480dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.475"
-        android:background="@android:color/black">
+<!--    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--        android:layout_width="520dp"-->
+<!--        android:layout_height="480dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guideline2"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0"-->
+<!--        android:background="@android:color/black">-->
 
-        <org.videolan.libvlc.util.VLCVideoLayout
-            android:id="@+id/videoLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:rotation="90"/>
+<!--        <org.videolan.libvlc.util.VLCVideoLayout-->
+<!--            android:id="@+id/videoLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:rotation="90"/>-->
 
-    </FrameLayout>
+<!--    </FrameLayout>-->
+
+<!--    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--        android:layout_width="520dp"-->
+<!--        android:layout_height="480dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guideline2"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="1"-->
+<!--        android:background="@android:color/black">-->
+
+<!--        <org.videolan.libvlc.util.VLCVideoLayout-->
+<!--            android:id="@+id/videoLayout2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:rotation="90"/>-->
+
+<!--    </FrameLayout>-->
 
     <!--    <TextView-->
 <!--        android:id="@+id/pose_w"-->
@@ -120,83 +137,97 @@
         android:id="@+id/mqttStatus"
         android:layout_width="200dp"
         android:layout_height="14dp"
-        android:layout_marginStart="332dp"
+        android:layout_marginBottom="302dp"
         android:fontFamily="@font/lato"
-        android:rotation="90"
         android:text="ROBOT DISCONNECTED"
         android:textColor="@color/red"
-        android:textSize="12sp"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.154" />
+        app:layout_constraintStart_toStartOf="@id/guideline6"
+        app:layout_editor_absoluteY="500dp" />
 
     <TextView
         android:id="@+id/flipperStatus"
         android:layout_width="200dp"
         android:layout_height="14dp"
-        android:layout_marginStart="296dp"
+        android:layout_marginBottom="282dp"
         android:fontFamily="@font/lato"
-        android:rotation="90"
         android:text="FLIPPER NEUTRAL"
-        android:textColor="@color/green"
-        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.154" />
+        app:layout_constraintStart_toStartOf="@id/guideline6"
+        app:layout_editor_absoluteY="500dp" />
 
     <TextView
         android:id="@+id/moveStatus"
         android:layout_width="200dp"
         android:layout_height="14dp"
-        android:layout_marginStart="256dp"
+        android:layout_marginBottom="240dp"
         android:fontFamily="@font/lato"
-        android:rotation="90"
         android:text="MOVEMENT STOP"
-        android:textColor="@color/green"
-        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.154" />
+        app:layout_constraintStart_toStartOf="@id/guideline6"
+        app:layout_editor_absoluteY="500dp" />
 
     <TextView
         android:id="@+id/dateTime"
         android:layout_width="200dp"
-        android:layout_height="14dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="220dp"
         android:fontFamily="@font/lato"
-        android:rotation="90"
         android:text="DATE"
         android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.525"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        tools:layout_editor_absoluteX="168dp" />
+        app:layout_editor_absoluteY="500dp" />
+
+    <TextView
+        android:id="@+id/tofValue"
+        android:layout_width="200dp"
+        android:layout_height="14dp"
+        android:layout_marginBottom="262dp"
+        android:fontFamily="@font/lato"
+        android:text="TOF: "
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline6"
+        app:layout_editor_absoluteY="500dp" />
 
     <Button
         android:id="@+id/falconUp"
-        android:layout_width="80dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="84dp"
         android:background="@drawable/falcon_up"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.908" />
+        app:layout_constraintStart_toEndOf="@+id/guideline8"
+        app:layout_editor_absoluteY="490dp" />
 
     <Button
         android:id="@+id/falconDown"
-        android:layout_width="80dp"
-        android:layout_height="150dp"
-        android:layout_marginEnd="2dp"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
         android:background="@drawable/falcon_down"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.908" />
+        app:layout_constraintVertical_bias="0.969" />
+
+
+    <ImageView
+        android:id="@+id/orientation"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/orientation_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.974" />
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/joystickView_left"
@@ -212,30 +243,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.017" />
+        app:layout_constraintVertical_bias="0.96" />
+
+    <Button
+        android:id="@+id/buzzer"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="240dp"
+        android:background="@drawable/buzzer"
+        android:text="Locate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline8"
+        app:layout_editor_absoluteY="500dp" />
 
     <Button
         android:id="@+id/mqttConnect"
-        android:layout_width="40dp"
-        android:layout_height="140dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="196dp"
         android:background="@drawable/button_press"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.908" />
-
-    <Button
-        android:id="@+id/screenshot"
-        android:layout_width="40dp"
-        android:layout_height="140dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/screenshot_press"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline7"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.908" />
-
+        app:layout_constraintStart_toEndOf="@+id/guideline8"
+        app:layout_editor_absoluteY="500dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -249,14 +278,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.06" />
+        app:layout_constraintGuide_percent="0.037" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.204" />
+        app:layout_constraintGuide_percent="0.004" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -277,13 +306,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.19" />
+        app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.65" />
+        app:layout_constraintGuide_percent="0.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.76" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

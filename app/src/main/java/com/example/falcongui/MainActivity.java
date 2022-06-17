@@ -18,15 +18,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+//import com.google.firebase.database.DataSnapshot;
+//import com.google.firebase.database.DatabaseError;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.ValueEventListener;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -35,28 +37,30 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttConnect;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.util.VLCVideoLayout;
+//import org.videolan.libvlc.LibVLC;
+//import org.videolan.libvlc.Media;
+//import org.videolan.libvlc.MediaPlayer;
+//import org.videolan.libvlc.util.VLCVideoLayout;
 
 
 public class MainActivity extends AppCompatActivity {
 
     // creating a variable for
     // our Firebase Database.
-    FirebaseDatabase firebaseDatabase;
+//    FirebaseDatabase firebaseDatabase;
 
     // creating a variable for our
     // Database Reference for Firebase.
-    DatabaseReference databaseReference;
-    DatabaseReference newRobotRef;
+//    DatabaseReference databaseReference;
+//    DatabaseReference newRobotRef;
 
     // variables for Text view.
     private TextView poseW;
@@ -64,28 +68,30 @@ public class MainActivity extends AppCompatActivity {
     private TextView poseY;
 
     // variables for robot icon
-    private ImageView robotIcon;
-    private String pose_w = "0";
-    private String pose_x = "0";
-    private String pose_y = "0";
-    private float robotX = 0;
-    private float robotY = 0;
-    private float robotW = 0;
-    private float mapX = 0;
-    private float mapY =0;
+//    private ImageView robotIcon;
+//    private String pose_w = "0";
+//    private String pose_x = "0";
+//    private String pose_y = "0";
+//    private float robotX = 0;
+//    private float robotY = 0;
+//    private float robotW = 0;
+//    private float mapX = 0;
+//    private float mapY =0;
 
     // variables for geotag
-    private ImageView geoTag;
-    private String interest_loc_x = "0";
-    private String interest_loc_y = "0";
-    private float geoX = 0;
-    private float geoY = 0;
-    private float mapGeoX = 0;
-    private float mapGeoY = 0;
+//    private ImageView geoTag;
+//    private String interest_loc_x = "0";
+//    private String interest_loc_y = "0";
+//    private float geoX = 0;
+//    private float geoY = 0;
+//    private float mapGeoX = 0;
+//    private float mapGeoY = 0;
 
     Handler handler = new Handler();
     Runnable runnable;
-    int delay = 100;
+    int delay = 1000;
+    boolean imuBool = false;
+    boolean tofBool = false;
 
     //MQTT
     public String MQTTHOST = "tcp://10.10.10.100:1883";
@@ -106,13 +112,24 @@ public class MainActivity extends AppCompatActivity {
     private TextView moveStatus;
 
     //Video Stream
-    private static final String url = "rtsp://10.10.10.107:8554/mjpeg/1";
-    private LibVLC libVlc;
-    private MediaPlayer mediaPlayer;
-    private VLCVideoLayout videoLayout;
+//    private static final String url = "rtsp://10.10.10.112:8554/mjpeg/1";
+//    private LibVLC libVlc;
+//    private MediaPlayer mediaPlayer;
+//    private VLCVideoLayout videoLayout;
+//
+//    private static final String url2 = "rtsp://10.10.10.110:8554/mjpeg/1";
+//    private LibVLC libVlc2;
+//    private MediaPlayer mediaPlayer2;
+//    private VLCVideoLayout videoLayout2;
 
     private TextView dateTime;
-    private Button screenshot;
+    private Button buzzer;
+    private boolean buzz_press;
+    private String buzz;
+
+    private MutableLiveData<Float> pitchY = new MutableLiveData<>();
+    private ImageView orientation;
+    private TextView tofValue;
 
     /**
      *
@@ -134,11 +151,11 @@ public class MainActivity extends AppCompatActivity {
 
         // below line is used to get the instance
         // of our Firebase database.
-        firebaseDatabase = FirebaseDatabase.getInstance();
-
-        // below line is used to get
-        // reference for our database.
-        databaseReference = firebaseDatabase.getReference().child("robot");
+//        firebaseDatabase = FirebaseDatabase.getInstance();
+//
+//        // below line is used to get
+//        // reference for our database.
+//        databaseReference = firebaseDatabase.getReference().child("robot");
 
         // initializing our object class variable.
 //        poseW = findViewById(R.id.pose_w);
@@ -174,28 +191,27 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Check_strength", String.valueOf(strength));
                 Log.d("Check_angle", String.valueOf(angle));
                 if (angle >= 45 && angle <= 135 && strength > 50) {
-                    publishControl.setValue(4);
-                    Log.d("publish", "left");
-                    moveStatus.setText("MOVEMENT LEFT");
-                } else if ((angle >= 315 && strength > 50) || (angle < 45 && strength > 50)) {
                     publishControl.setValue(1);
                     Log.d("publish", "forward");
                     moveStatus.setText("MOVEMENT FORWARD");
-                } else if (angle < 315 && angle >= 225 && strength > 50) {
-                    publishControl.setValue(3);
+                } else if ((angle >= 315 && strength > 50) || (angle < 45 && strength > 50)) {
+                    publishControl.setValue(4);
                     Log.d("publish", "right");
                     moveStatus.setText("MOVEMENT RIGHT");
-                } else if (angle < 225 && angle >135 && strength > 50) {
+                } else if (angle < 315 && angle >= 225 && strength > 50) {
                     publishControl.setValue(2);
                     Log.d("publish", "backward");
                     moveStatus.setText("MOVEMENT BACKWARD");
+                } else if (angle < 225 && angle >135 && strength > 50) {
+                    publishControl.setValue(3);
+                    Log.d("publish", "left");
+                    moveStatus.setText("MOVEMENT LEFT");
                 } else {
                     publishControl.setValue(0);
                     moveStatus.setText("MOVEMENT STOP");
                 }
             }
         });
-
 
         mqttConnect = findViewById(R.id.mqttConnect);
         mqttStatus = findViewById(R.id.mqttStatus);
@@ -204,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
             if (mqttConnected) {
                 mqttStatus.setText("ROBOT CONNECTED");
                 mqttStatus.setTextColor(getResources().getColor(R.color.green));
+                mqttConnect.setVisibility(View.GONE);
             }
         });
 
@@ -211,9 +228,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable final Integer newIntValue) {
                 // Update the UI, in this case, a TextView.
+
                 try {
                     Log.d("mqtt", "publishing " + publishControl.getValue().toString());
-                    client.publish("falcon/drive", publishControl.getValue().toString().getBytes(StandardCharsets.UTF_8),0,false);
+                    client.publish("falcon/drive", publishControl.getValue().toString().getBytes(StandardCharsets.UTF_8), 0, false);
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -267,37 +285,93 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        libVlc = new LibVLC(this);
-        mediaPlayer = new MediaPlayer(libVlc);
-        videoLayout = findViewById(R.id.videoLayout);
-        mediaPlayer.attachViews(videoLayout, null, false, false);
+        orientation = findViewById(R.id.orientation);
+        tofValue = findViewById(R.id.tofValue);
+        pitchY.observe(this, new Observer<Float>() {
+            @Override
+            public void onChanged(@Nullable final Float newFloatValue) {
+                // Update the UI, in this case, an Image.
+                Log.i("ORIENTATION", String.valueOf(pitchY.getValue()));
+                orientation.setRotation(pitchY.getValue());
+            }
+        });
 
-        Media media = new Media(libVlc, Uri.parse(url));
-        media.setHWDecoderEnabled(true, false);
-        media.addOption(":network-caching=600");
+//        ArrayList<String> vlcOptions = new ArrayList<>();
+//        vlcOptions.add("--file-caching=2000");
+//        //vlcOptions.add("--rtp-caching=0");
+//        vlcOptions.add("-vvv");
+        //vlcOptions.add(":network-caching=300");
+        //vlcOptions.add(":sout = #transcode{vcodec=x264,vb=800,scale=0.25,acodec=none,fps=23}:display :no-sout-rtp-sap :no-sout-standard-sap :ttl=1 :sout-keep");
 
-        mediaPlayer.setMedia(media);
-        media.release();
-        mediaPlayer.play();
+        //First Video feed
+//        libVlc = new LibVLC(this, vlcOptions);
+//        mediaPlayer = new MediaPlayer(libVlc);
+//        videoLayout = findViewById(R.id.videoLayout);
+//        mediaPlayer.attachViews(videoLayout, null, false, false);
+//
+//        Media media = new Media(libVlc, Uri.parse(url));
+//        media.setHWDecoderEnabled(true, false);
+//        media.addOption(":network-caching=150");
+//        media.addOption(":clock-jitter=0");
+//        media.addOption(":clock-synchro=0");
+//        //media.addOption(":file-caching=0");
+//        //media.addOption(":network-caching=300");
+//        //media.addOption(":sout = #transcode{vcodec=x264,vb=800,scale=0.25,acodec=none,fps=23}:display :no-sout-rtp-sap :no-sout-standard-sap :ttl=1 :sout-keep");
+//
+//
+//        mediaPlayer.setMedia(media);
+//        media.release();
+//        mediaPlayer.play();
+//
+//        //Second Video feed
+//        libVlc2 = new LibVLC(this, vlcOptions);
+//        mediaPlayer2 = new MediaPlayer(libVlc2);
+//        videoLayout2 = findViewById(R.id.videoLayout2);
+//        mediaPlayer2.attachViews(videoLayout2, null, false, false);
+//
+//        Media media2 = new Media(libVlc2, Uri.parse(url2));
+//        media2.setHWDecoderEnabled(true, false);
+//        media2.addOption(":network-caching=600");
+//        media2.addOption(":clock-jitter=0");
+//        media2.addOption(":clock-synchro=0");
+        //media2.addOption(":file-caching=0");
+        //media2.addOption(":network-caching=300");
+        //media2.addOption(":sout = #transcode{vcodec=x264,vb=800,scale=0.25,acodec=none,fps=23}:display :no-sout-rtp-sap :no-sout-standard-sap :ttl=1 :sout-keep");
+
+
+//        mediaPlayer2.setMedia(media2);
+//        media2.release();
+//        mediaPlayer2.play();
 
         dateTime = findViewById(R.id.dateTime);
         setDate(dateTime);
 
-        screenshot = findViewById(R.id.screenshot);
-        screenshot.setOnClickListener(v -> {
-            takeScreenshot();
+        buzzer = findViewById(R.id.buzzer);
+        buzzer.setOnClickListener(v -> {
+            if (buzz_press) {
+                buzz_press = false;
+                buzz = "0";
+            } else {
+                buzz_press = true;
+                buzz = "1";
+            }
+            try {
+                client.publish("falcon/buzzer", buzz.getBytes(StandardCharsets.UTF_8),0,false);
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
         });
     }
 
 
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-
-        mediaPlayer.stop();
-        mediaPlayer.detachViews();
-    }
+//    @Override
+//    protected void onStop()
+//    {
+//        super.onStop();
+//
+//        mediaPlayer.stop();
+//        mediaPlayer.detachViews();
+//    }
 
 
     @Override
@@ -306,8 +380,12 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
                 handler.postDelayed(runnable, delay);
-                Log.i("check_time", "time_updated");
+                //Log.i("check_time", "time_updated");
 //                updateRobotIcon();
+                if (!imuBool) {
+                    imuBool = true;
+                    tofBool = true;
+                }
             }
         }, delay);
     }
@@ -316,14 +394,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacks(runnable);
-        mediaPlayer.release();
-        libVlc.release();
+//        mediaPlayer.release();
+//        libVlc.release();
     }
 
     public void mqttConnect(String MQTTHost, String subscription) {
         String clientId = MqttClient.generateClientId();
         client = new MqttAndroidClient(this, MQTTHost, clientId);
         options = new MqttConnectOptions();
+        options.setUserName("username");
+        String mqttPassword = "password";
+        options.setPassword(mqttPassword.toCharArray());
 
         try {
             Log.i("mqtt", "attempting connection");
@@ -333,8 +414,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(IMqttToken asyncActionToken) {
                     // We are connected
                     Log.i("mqtt","connected");
+                    //setSubscription(subscription);
+                    setSubscription("esp32/y_value");
+                    setSubscription("esp32/tof_value");
+                    mqttConnected = true;
 
-                    setSubscription(subscription);
 
                 }
                 @Override
@@ -343,10 +427,55 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("mqtt", "did not connect");
                 }
             });
+            //if (client.isConnected()) {
+                // MQTT RECEIVE
+                client.setCallback(new MqttCallback() {
+                    @Override
+                    public void connectionLost(Throwable cause) { }
+
+                    @Override
+                    public void messageArrived(String topic, MqttMessage message) throws Exception {
+                        Log.i("RECEIVED", new String(message.getPayload()));
+                        Log.i("topic", topic);
+
+                        if (topic.equals("esp32/y_value") && imuBool){
+
+                            String pitchYString = new String(message.getPayload());
+                            //Log.i("imu", pitchYString);;
+                            pitchY.setValue(Float.parseFloat(pitchYString) * 57.0f);
+                            Log.i("imu", pitchYString);
+                            //orientation.setRotation(Float.parseFloat(pitchYString) * 57.0f);
+                            imuBool = false;
+                            //Log.i("imu", Integer.getInteger(pitchYString) * 57);
+                            //Log.i("IMU", String.valueOf(Float.parseFloat(pitchYString) * 57));
+        //                    JsonObject weight = new Gson().fromJson(sensor_weight_value, JsonObject.class);
+        //                    float weight_result = weight.get("weight").getAsFloat();
+        //                    Log.i("weight_value", String.valueOf(weight_result));
+        //                    DetailActivity.weight_value = weight_result;
+                        }
+
+                        if (topic.equals("esp32/tof_value") && tofBool) {
+                            String tof_value = new String(message.getPayload());
+                            Log.i("tof", tof_value);
+                            tofValue.setText("TOF: " + tof_value);
+        //                    JsonObject weight = new Gson().fromJson(sensor_oxygen_value, JsonObject.class);
+        //                    float oxygen_result = weight.get("slpm").getAsFloat();
+        //                    Log.i("oxygen_test", String.valueOf(oxygen_result));
+        //                    oxygen_shortTimeStr = oxygen_sdf.format(oxygen_currTime);
+        //                    flow_rate = oxygen_result;
+                            tofBool = false;
+                        }
+                    }
+
+                    @Override
+                    public void deliveryComplete(IMqttDeliveryToken token) { }
+                });
+           // }
         } catch (MqttException e) {
             Log.i("mqtt", "exception");
             e.printStackTrace();
         }
+
     }
 
     private void setSubscription(String topicStr){
@@ -359,66 +488,66 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Add a new robot to firebase
-    private void addNewRobot(String robotID) {
-        newRobotRef = firebaseDatabase.getReference().child("robot").child(robotID);
-        Robot robot = new Robot(robotID);
-        newRobotRef.setValue(robot);
-    }
-
-    // Remove a specific robot from firebase
-    private void removeRobot(String robotID) {
-        newRobotRef = firebaseDatabase.getReference().child("robot").child(robotID);
-        newRobotRef.removeValue();
-    }
-
-    // Update the robot's position on the minimap
-    private void updateRobotIcon() {
-        robotX = Float.parseFloat(pose_x);
-        robotY = Float.parseFloat(pose_y);
-        mapX = map(robotX, -5, 5, 240, 1400);
-        mapY = map(robotY, -5, 5, 220, 800);
-        //850 x 500 center
-        robotIcon.setTranslationX(mapX);
-        robotIcon.setTranslationY(mapY);
-    }
-
-    // Update the positions of geotags
-    private void updateGeotags() {
-        geoX = Float.parseFloat(interest_loc_x);
-        geoY = Float.parseFloat(interest_loc_y);
-        mapGeoX = map(geoX, -50, 50, 0, 1700);
-        mapGeoY = map(geoY, -50, 50, 0, 1000);
-        geoTag.setTranslationX(mapGeoX);
-        geoTag.setTranslationY(mapGeoY);
-    }
-
-    private void takeScreenshot() {
-        Date now = new Date();
-        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-
-        try {
-            // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
-
-            // create bitmap screen capture
-            View v1 = getWindow().getDecorView().getRootView();
-            v1.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-            v1.setDrawingCacheEnabled(false);
-
-            File imageFile = new File(mPath);
-
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            int quality = 100;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
-
-        } catch (Throwable e) {
-            // Several error may come out with file handling or DOM
-            e.printStackTrace();
-        }
-    }
+//    private void addNewRobot(String robotID) {
+//        newRobotRef = firebaseDatabase.getReference().child("robot").child(robotID);
+//        Robot robot = new Robot(robotID);
+//        newRobotRef.setValue(robot);
+//    }
+//
+//    // Remove a specific robot from firebase
+//    private void removeRobot(String robotID) {
+//        newRobotRef = firebaseDatabase.getReference().child("robot").child(robotID);
+//        newRobotRef.removeValue();
+//    }
+//
+//    // Update the robot's position on the minimap
+//    private void updateRobotIcon() {
+//        robotX = Float.parseFloat(pose_x);
+//        robotY = Float.parseFloat(pose_y);
+//        mapX = map(robotX, -5, 5, 240, 1400);
+//        mapY = map(robotY, -5, 5, 220, 800);
+//        //850 x 500 center
+//        robotIcon.setTranslationX(mapX);
+//        robotIcon.setTranslationY(mapY);
+//    }
+//
+//    // Update the positions of geotags
+//    private void updateGeotags() {
+//        geoX = Float.parseFloat(interest_loc_x);
+//        geoY = Float.parseFloat(interest_loc_y);
+//        mapGeoX = map(geoX, -50, 50, 0, 1700);
+//        mapGeoY = map(geoY, -50, 50, 0, 1000);
+//        geoTag.setTranslationX(mapGeoX);
+//        geoTag.setTranslationY(mapGeoY);
+//    }
+//
+//    private void takeScreenshot() {
+//        Date now = new Date();
+//        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+//
+//        try {
+//            // image naming and path  to include sd card  appending name you choose for file
+//            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+//
+//            // create bitmap screen capture
+//            View v1 = getWindow().getDecorView().getRootView();
+//            v1.setDrawingCacheEnabled(true);
+//            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+//            v1.setDrawingCacheEnabled(false);
+//
+//            File imageFile = new File(mPath);
+//
+//            FileOutputStream outputStream = new FileOutputStream(imageFile);
+//            int quality = 100;
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+//            outputStream.flush();
+//            outputStream.close();
+//
+//        } catch (Throwable e) {
+//            // Several error may come out with file handling or DOM
+//            e.printStackTrace();
+//        }
+//    }
 
     public void setDate (TextView view){
         Date today = Calendar.getInstance().getTime();//getting date
@@ -432,40 +561,40 @@ public class MainActivity extends AppCompatActivity {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
-    private void getdata() {
-
-        // calling add value event listener method
-        // for getting the values from database.
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // this method is call to get the realtime
-                // updates in the data.
-                // this method is called when the data is
-                // changed in our Firebase console.
-                // below line is for getting the data from
-                // snapshot of our database.
-                pose_w = String.valueOf(snapshot.child("001").child("pose_w").getValue());
-                pose_x = String.valueOf(snapshot.child("001").child("pose_x").getValue());
-                pose_y = String.valueOf(snapshot.child("001").child("pose_y").getValue());
-                interest_loc_x = String.valueOf(snapshot.child("001").child("Interest_Loc_x")
-                        .child("0").getValue());
-                interest_loc_y = String.valueOf(snapshot.child("001").child("Interest_Loc_y")
-                        .child("0").getValue());
-
-                // after getting the value we are setting
-                // our value to our text view in below line.
-                poseW.setText("X POSITION   " + pose_w);
-                poseX.setText("Y POSITION   " + pose_x);
-                poseY.setText("Z POSITION   " + pose_y);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // calling on cancelled method when we receive
-                // any error or we are not able to get the data.
-                Toast.makeText(MainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void getdata() {
+//
+//        // calling add value event listener method
+//        // for getting the values from database.
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                // this method is call to get the realtime
+//                // updates in the data.
+//                // this method is called when the data is
+//                // changed in our Firebase console.
+//                // below line is for getting the data from
+//                // snapshot of our database.
+//                pose_w = String.valueOf(snapshot.child("001").child("pose_w").getValue());
+//                pose_x = String.valueOf(snapshot.child("001").child("pose_x").getValue());
+//                pose_y = String.valueOf(snapshot.child("001").child("pose_y").getValue());
+//                interest_loc_x = String.valueOf(snapshot.child("001").child("Interest_Loc_x")
+//                        .child("0").getValue());
+//                interest_loc_y = String.valueOf(snapshot.child("001").child("Interest_Loc_y")
+//                        .child("0").getValue());
+//
+//                // after getting the value we are setting
+//                // our value to our text view in below line.
+//                poseW.setText("X POSITION   " + pose_w);
+//                poseX.setText("Y POSITION   " + pose_x);
+//                poseY.setText("Z POSITION   " + pose_y);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // calling on cancelled method when we receive
+//                // any error or we are not able to get the data.
+//                Toast.makeText(MainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 }

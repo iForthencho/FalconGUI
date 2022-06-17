@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/RoarLab/AndroidProjects/FalconGUI/FalconGUI/app/src/main/res/drawable/button_press.xml" value="0.196" />
         <entry key="..\:/RoarLab/AndroidProjects/FalconGUI/FalconGUI/app/src/main/res/drawable/screenshot_press.xml" value="0.245" />
-        <entry key="..\:/RoarLab/AndroidProjects/FalconGUI/FalconGUI/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/RoarLab/AndroidProjects/FalconGUI/FalconGUI/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/RoarLab/AndroidProjects/FalconGUI/FalconGUI/app/src/main/res/layout/popup_window.xml" value="0.25" />
       </map>
     </option>
