@@ -198,6 +198,19 @@
         app:layout_constraintStart_toStartOf="@id/guideline6"
         app:layout_editor_absoluteY="500dp" />
 
+    <TextView
+        android:id="@+id/bmsValue"
+        android:layout_width="200dp"
+        android:layout_height="14dp"
+        android:layout_marginBottom="322dp"
+        android:fontFamily="@font/lato"
+        android:text="BMS: "
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline6"
+        app:layout_editor_absoluteY="500dp" />
+
     <Button
         android:id="@+id/falconUp"
         android:layout_width="150dp"

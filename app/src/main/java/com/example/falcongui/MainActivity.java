@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     private MutableLiveData<Float> pitchY = new MutableLiveData<>();
     private ImageView orientation;
     private TextView tofValue;
+    private TextView bms;
 
     /**
      *
@@ -296,6 +297,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        bms = findViewById(R.id.bmsValue);
+
 //        ArrayList<String> vlcOptions = new ArrayList<>();
 //        vlcOptions.add("--file-caching=2000");
 //        //vlcOptions.add("--rtp-caching=0");
@@ -356,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
                 buzz = "1";
             }
             try {
+                //QOS
                 client.publish("falcon/buzzer", buzz.getBytes(StandardCharsets.UTF_8),0,false);
             } catch (MqttException e) {
                 e.printStackTrace();
@@ -397,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
 //        mediaPlayer.release();
 //        libVlc.release();
     }
-
+    //MQTT
     public void mqttConnect(String MQTTHost, String subscription) {
         String clientId = MqttClient.generateClientId();
         client = new MqttAndroidClient(this, MQTTHost, clientId);
@@ -417,6 +421,7 @@ public class MainActivity extends AppCompatActivity {
                     //setSubscription(subscription);
                     setSubscription("esp32/y_value");
                     setSubscription("esp32/tof_value");
+                    setSubscription("esp32/BMS");
                     mqttConnected = true;
 
 
@@ -433,12 +438,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void connectionLost(Throwable cause) { }
 
+                    //MQTT RECEIVE MESSAGE
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         Log.i("RECEIVED", new String(message.getPayload()));
                         Log.i("topic", topic);
 
-                        if (topic.equals("esp32/y_value") && imuBool){
+                        if (topic.equals("esp32/y_value")){
 
                             String pitchYString = new String(message.getPayload());
                             //Log.i("imu", pitchYString);;
@@ -454,7 +460,7 @@ public class MainActivity extends AppCompatActivity {
         //                    DetailActivity.weight_value = weight_result;
                         }
 
-                        if (topic.equals("esp32/tof_value") && tofBool) {
+                        if (topic.equals("esp32/tof_value")) {
                             String tof_value = new String(message.getPayload());
                             Log.i("tof", tof_value);
                             tofValue.setText("TOF: " + tof_value);
@@ -465,6 +471,13 @@ public class MainActivity extends AppCompatActivity {
         //                    flow_rate = oxygen_result;
                             tofBool = false;
                         }
+                        //TODO: BMS
+                        if (topic.equals("esp32/BMS")) {
+                            String bms_value = new String(message.getPayload());
+                            //Log.i("tof", bms_value);
+                            bms.setText("Battery: " + bms_value);
+                        }
+
                     }
 
                     @Override
